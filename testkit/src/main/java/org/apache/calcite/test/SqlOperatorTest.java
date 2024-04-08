@@ -4465,20 +4465,8 @@ public class SqlOperatorTest {
     f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'YYYY-MM-DD HH24:MI:SS.MS TZ')",
         "2022-06-03 12:15:48.678",
         "VARCHAR NOT NULL");
-    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'Day')",
-        "Friday",
-        "VARCHAR NOT NULL");
-    f.checkString("to_char(timestamp '0001-01-01 00:00:00.000', 'Day')",
-        "Monday",
-        "VARCHAR NOT NULL");
-    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'DY')",
-        "Fri",
-        "VARCHAR NOT NULL");
-    f.checkString("to_char(timestamp '0001-01-01 00:00:00.000', 'DY')",
-        "Mon",
-        "VARCHAR NOT NULL");
-    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'CC')",
-        "21",
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'HH')",
+        "12",
         "VARCHAR NOT NULL");
     f.checkString("to_char(timestamp '2022-06-03 13:15:48.678', 'HH12')",
         "01",
@@ -4489,17 +4477,209 @@ public class SqlOperatorTest {
     f.checkString("to_char(timestamp '2022-06-03 13:15:48.678', 'MI')",
         "15",
         "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 13:15:48.678', 'SS')",
+        "48",
+        "VARCHAR NOT NULL");
     f.checkString("to_char(timestamp '2022-06-03 13:15:48.678', 'MS')",
         "678",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'US')",
+        "678000",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'FF1')",
+        "6",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'FF2')",
+        "67",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'FF3')",
+        "678",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'FF4')",
+        "6780",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'FF5')",
+        "67800",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'FF6')",
+        "678000",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'SSSS')",
+        "43338",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'SSSSS')",
+        "43338",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'AM')",
+        "PM",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'am')",
+        "pm",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 02:15:48.678', 'PM')",
+        "AM",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 02:15:48.678', 'pm')",
+        "am",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'A.M.')",
+        "P.M.",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'a.m.')",
+        "p.m.",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 02:15:48.678', 'P.M.')",
+        "A.M.",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 02:15:48.678', 'p.m.')",
+        "a.m.",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'Y,YYY')",
+        "2,022",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'YYYY')",
+        "2022",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'YYY')",
+        "022",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'YY')",
+        "22",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'Y')",
+        "2",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2023-01-01 12:15:48.678', 'IYYY')",
+        "2022",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2023-01-01 12:15:48.678', 'IYY')",
+        "022",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2023-01-01 12:15:48.678', 'IY')",
+        "22",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2023-01-01 12:15:48.678', 'I')",
+        "2",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'BC')",
+        "AD",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'bc')",
+        "ad",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'AD')",
+        "AD",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'ad')",
+        "ad",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'B.C.')",
+        "A.D.",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'b.c.')",
+        "a.d.",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'A.D.')",
+        "A.D.",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'a.d.')",
+        "a.d.",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'MONTH')",
+        "JUNE",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'Month')",
+        "June",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'month')",
+        "june",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'MON')",
+        "JUN",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'Mon')",
+        "Jun",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'mon')",
+        "jun",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'DAY')",
+        "FRIDAY",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'Day')",
+        "Friday",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'day')",
+        "friday",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'DY')",
+        "FRI",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '0001-01-01 00:00:00.000', 'DY')",
+        "MON",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'Dy')",
+        "Fri",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'dy')",
+        "fri",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'DDD')",
+        "154",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'IDDD')",
+        "152",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'DD')",
+        "03",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'D')",
+        "6",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'ID')",
+        "5",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'W')",
+        "1",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'WW')",
+        "22",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 13:15:48.678', 'IW')",
+        "22",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'CC')",
+        "21",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'J')",
+        "2459734",
         "VARCHAR NOT NULL");
     f.checkString("to_char(timestamp '2022-06-03 13:15:48.678', 'Q')",
         "2",
         "VARCHAR NOT NULL");
-    f.checkString("to_char(timestamp '2022-06-03 13:15:48.678', 'IW')",
-        "23",
+    f.checkString("to_char(timestamp '2022-06-03 13:15:48.678', 'RM')",
+        "VI",
         "VARCHAR NOT NULL");
-    f.checkNull("to_char(timestamp '2022-06-03 12:15:48.678', NULL)");
+    f.checkString("to_char(timestamp '2022-06-03 13:15:48.678', 'rm')",
+        "vi",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 13:15:48.678', 'TZ')",
+        "UTC",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 13:15:48.678', 'tz')",
+        "utc",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'TZH')",
+        "+00",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'TZM')",
+        "00",
+        "VARCHAR NOT NULL");
+    f.checkString("to_char(timestamp '2022-06-03 12:15:48.678', 'OF')",
+        "+00",
+        "VARCHAR NOT NULL");
     f.checkNull("to_char(cast(NULL as timestamp), NULL)");
+    f.checkNull("to_char(timestamp '2022-06-03 12:15:48.678', NULL)");
     f.checkNull("to_char(cast(NULL as timestamp), 'Day')");
   }
 
