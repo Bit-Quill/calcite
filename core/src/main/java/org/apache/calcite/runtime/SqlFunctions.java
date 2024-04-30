@@ -47,6 +47,7 @@ import org.apache.calcite.util.Util;
 import org.apache.calcite.util.format.FormatElement;
 import org.apache.calcite.util.format.FormatModel;
 import org.apache.calcite.util.format.FormatModels;
+import org.apache.calcite.util.format.postgresql.DateTimeFormatter;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base32;
@@ -94,7 +95,7 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.format.SignStyle;
@@ -155,11 +156,11 @@ public class SqlFunctions {
 
   private static final TimeZone LOCAL_TZ = TimeZone.getDefault();
 
-  private static final DateTimeFormatter ROOT_DAY_FORMAT =
-      DateTimeFormatter.ofPattern("EEEE", Locale.ROOT);
+  private static final java.time.format.DateTimeFormatter ROOT_DAY_FORMAT =
+      java.time.format.DateTimeFormatter.ofPattern("EEEE", Locale.ROOT);
 
-  private static final DateTimeFormatter ROOT_MONTH_FORMAT =
-      DateTimeFormatter.ofPattern("MMMM", Locale.ROOT);
+  private static final java.time.format.DateTimeFormatter ROOT_MONTH_FORMAT =
+      java.time.format.DateTimeFormatter.ofPattern("MMMM", Locale.ROOT);
 
   private static final Soundex SOUNDEX = new Soundex();
 
@@ -214,7 +215,7 @@ public class SqlFunctions {
 
   // Date formatter for BigQuery's timestamp literals:
   // https://cloud.google.com/bigquery/docs/reference/standard-sql/lexical#timestamp_literals
-  private static final DateTimeFormatter BIG_QUERY_TIMESTAMP_LITERAL_FORMATTER =
+  private static final java.time.format.DateTimeFormatter BIG_QUERY_TIMESTAMP_LITERAL_FORMATTER =
       new DateTimeFormatterBuilder()
           // Unlike ISO 8601, BQ only supports years between 1 - 9999,
           // but can support single-digit month and day parts.
@@ -4041,6 +4042,13 @@ public class SqlFunctions {
       withElements(FormatModels.POSTGRESQL, pattern, elements ->
           elements.forEach(element -> element.format(sb, sqlTimestamp)));
       return sb.toString().trim();
+    }
+
+    public String toCharPg(long timestamp, String pattern) {
+      final Timestamp sqlTimestamp = internalToTimestamp(timestamp);
+      final ZonedDateTime zonedDateTime =
+          ZonedDateTime.of(sqlTimestamp.toLocalDateTime(), ZoneId.systemDefault());
+      return DateTimeFormatter.toChar(pattern, zonedDateTime).trim();
     }
 
     public int toDate(String dateString, String fmtString) {
