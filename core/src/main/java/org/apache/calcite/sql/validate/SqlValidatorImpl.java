@@ -508,7 +508,7 @@ public class SqlValidatorImpl implements SqlValidatorWithHints {
     return false;
   }
 
-  private static SqlNode expandExprFromJoin(SqlJoin join,
+  private SqlNode expandExprFromJoin(SqlJoin join,
       SqlIdentifier identifier, SelectScope scope) {
     if (join.getConditionType() != JoinConditionType.USING) {
       return identifier;
@@ -530,9 +530,9 @@ public class SqlValidatorImpl implements SqlValidatorWithHints {
 
         assert qualifiedNode.size() == 2;
         return SqlStdOperatorTable.AS.createCall(SqlParserPos.ZERO,
-            SqlStdOperatorTable.COALESCE.createCall(SqlParserPos.ZERO,
+            this.performUnconditionalRewrites(SqlStdOperatorTable.COALESCE.createCall(SqlParserPos.ZERO,
                 qualifiedNode.get(0),
-                qualifiedNode.get(1)),
+                qualifiedNode.get(1)), true),
             new SqlIdentifier(name, SqlParserPos.ZERO));
       }
     }
@@ -574,7 +574,7 @@ public class SqlValidatorImpl implements SqlValidatorWithHints {
         getNamespaceOrThrow(join.getRight()).getRowType());
   }
 
-  private static SqlNode expandCommonColumn(SqlSelect sqlSelect,
+  private SqlNode expandCommonColumn(SqlSelect sqlSelect,
       SqlNode selectItem, SelectScope scope, SqlValidatorImpl validator) {
     if (!(selectItem instanceof SqlIdentifier)) {
       return selectItem;
@@ -7005,7 +7005,7 @@ public class SqlValidatorImpl implements SqlValidatorWithHints {
    * identifiers. For common columns in USING, it will be converted to
    * COALESCE(A.col, B.col) AS col.
    */
-  static class SelectExpander extends Expander {
+  class SelectExpander extends Expander {
     final SqlSelect select;
 
     SelectExpander(SqlValidatorImpl validator, SelectScope scope,
@@ -7029,7 +7029,7 @@ public class SqlValidatorImpl implements SqlValidatorWithHints {
    * Shuttle which walks over an expression in the GROUP BY/HAVING clause, replacing
    * usages of aliases or ordinals with the underlying expression.
    */
-  static class ExtendedExpander extends Expander {
+  class ExtendedExpander extends Expander {
     final SqlSelect select;
     final SqlNode root;
     final Clause clause;
@@ -7600,9 +7600,10 @@ public class SqlValidatorImpl implements SqlValidatorWithHints {
                       + " and " + type1);
           selectItem =
               SqlStdOperatorTable.AS.createCall(SqlParserPos.ZERO,
-                  SqlStdOperatorTable.COALESCE.createCall(SqlParserPos.ZERO,
+                  performUnconditionalRewrites(SqlStdOperatorTable.COALESCE.createCall(
+                      SqlParserPos.ZERO,
                       maybeCast(selectItem, type, type2),
-                      maybeCast(selectItem1, type1, type2)),
+                      maybeCast(selectItem1, type1, type2)), true),
                   new SqlIdentifier(name, SqlParserPos.ZERO));
           type = typeFactory.createTypeWithNullability(type2, nullable);
         }
