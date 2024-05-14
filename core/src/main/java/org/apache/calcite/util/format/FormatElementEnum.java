@@ -210,6 +210,14 @@ public enum FormatElementEnum implements FormatElement {
       sb.append(String.format(Locale.ROOT, "%02d", calendar.get(Calendar.HOUR_OF_DAY)));
     }
   },
+  ID("ID", "ISO 8601 day of the week, Monday (1) to Sunday (7)") {
+    @Override public void format(StringBuilder sb, Date date) {
+      final Calendar calendar = Work.get().calendar;
+      calendar.setTime(date);
+      final int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+      sb.append(String.format(Locale.ROOT, "%d", dayOfWeek == 1 ? 7 : dayOfWeek - 1));
+    }
+  },
   // TODO: Ensure ISO 8601 for parsing
   IW("w", "The ISO 8601 week number of the year (Monday as the first day of the week) "
       + "as a decimal number (01-53)") {

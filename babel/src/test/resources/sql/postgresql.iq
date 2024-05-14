@@ -63,6 +63,26 @@ EXPR$0
 2022-06-03 12:15:48.678
 !ok
 
+select to_char(timestamp '2022-06-03 12:15:48.678', 'D');
+EXPR$0
+6
+!ok
+
+select to_char(timestamp '2024-05-14 12:15:48.678', 'D');
+EXPR$0
+3
+!ok
+
+select to_char(timestamp '2024-07-14 12:15:48.678', 'D');
+EXPR$0
+1
+!ok
+
+select to_char(timestamp '2024-07-14 12:15:48.678', 'ID');
+EXPR$0
+7
+!ok
+
 select to_date('2022-06-03', 'YYYY-MM-DD');
 EXPR$0
 2022-06-03

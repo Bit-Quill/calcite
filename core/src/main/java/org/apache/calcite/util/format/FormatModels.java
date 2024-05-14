@@ -51,6 +51,7 @@ import static org.apache.calcite.util.format.FormatElementEnum.FF8;
 import static org.apache.calcite.util.format.FormatElementEnum.FF9;
 import static org.apache.calcite.util.format.FormatElementEnum.HH12;
 import static org.apache.calcite.util.format.FormatElementEnum.HH24;
+import static org.apache.calcite.util.format.FormatElementEnum.ID;
 import static org.apache.calcite.util.format.FormatElementEnum.IW;
 import static org.apache.calcite.util.format.FormatElementEnum.MI;
 import static org.apache.calcite.util.format.FormatElementEnum.MM;
@@ -154,6 +155,7 @@ public class FormatModels {
         compositeElement("The time in the format %H:%M:%S.",
             HH24, literalElement(":"), MI, literalElement(":"), SS));
     map.put("%u", D);
+    map.put("ID", ID);
     map.put("%V", IW);
     map.put("%W", WW);
     map.put("%x",
